@@ -1,59 +1,46 @@
 package com.pula.controller;
 
-import com.pula.exception.UserException;
 import com.pula.model.User;
-import com.pula.repository.UserRepository;
+import com.pula.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @PostMapping("/msapi/users")
-    public User createUser(@Valid @RequestBody User user){
-        return userRepository.save(user);
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+        User createdUser =userService.createUser(user);
+        return new  ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @GetMapping("/msapi/users")
-    public List<User> getUsers(){
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> getUsers(){
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users,HttpStatus.OK);
     }
     @GetMapping("/msapi/users/{id}")
-    public User getUserById(@PathVariable Long id) throws Exception {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            return user.get();
-        }
-        throw new UserException("User not found with this id "+id);
+    public ResponseEntity<User> getUserById(@PathVariable Long id) throws Exception {
+        User user = userService.getUserById(id);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
     @PutMapping("/msapi/users/{id}")
-    public User updateUser(@PathVariable Long id ,@RequestBody User user) throws Exception {
-        Optional<User> existingUser = userRepository.findById(id);
-        if(existingUser.isEmpty()){
-            throw new UserException("User not found with this id "+id);
-        }
-        User updatedUser = existingUser.get();
-        updatedUser.setFullName(user.getFullName());
-        updatedUser.setEmail(user.getEmail());
-        updatedUser.setRole(user.getRole());
-        updatedUser.setPhone(user.getPhone());
-        return userRepository.save(updatedUser);
+    public ResponseEntity<User> updateUser(@PathVariable Long id ,@RequestBody User user) throws Exception {
+        User updateUser = userService.updateUser(id,user);
+        return new ResponseEntity<>(updateUser,HttpStatus.OK);
     }
 
     @DeleteMapping("/msapi/users/{id}")
-    public String deleteUser(@PathVariable Long id) throws Exception {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            userRepository.deleteById(id);
-            return "User deleted";
-        }
-        throw new UserException("User is not found with this id "+id);
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) throws Exception {
+        String s = userService.deleteUser(id);
+        return new ResponseEntity<>(s,HttpStatus.ACCEPTED);
     }
 }
