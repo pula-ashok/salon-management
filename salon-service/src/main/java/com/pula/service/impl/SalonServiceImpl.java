@@ -45,7 +45,7 @@ public class SalonServiceImpl implements SalonService {
             salon.setOpenTime(salonDTO.getOpenTime());
             salon.setCloseTime(salonDTO.getCloseTime());
             salon.setPhoneNumber(salonDTO.getPhoneNumber());
-            return salon;
+            return salonRepository.save(salon);
         }
         throw new Exception("Salon not found");
     }

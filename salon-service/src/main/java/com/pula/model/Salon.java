@@ -33,7 +33,7 @@ public class Salon {
     private String city;
 
     @Column(nullable = false)
-    private String ownerId;
+    private Long ownerId;
 
     @Column(nullable = false)
     private LocalTime openTime;
