@@ -28,6 +28,7 @@ public class ServiceOfferingServiceImpl implements ServiceOfferingService {
         serviceOffering.setDescription(serviceOfferingDTO.getDescription());
         serviceOffering.setPrice(serviceOfferingDTO.getPrice());
         serviceOffering.setDuration(serviceOfferingDTO.getDuration());
+        serviceOffering.setImage(serviceOffering.getImage());
         serviceOffering.setSalonId(salonDTO.getId());
         serviceOffering.setCategoryId(categoryDTO.getId());
         return serviceOfferingRepository.save(serviceOffering);
@@ -44,6 +45,7 @@ public class ServiceOfferingServiceImpl implements ServiceOfferingService {
         serviceOffering2.setDescription(serviceOffering.getDescription());
         serviceOffering2.setPrice(serviceOffering.getPrice());
         serviceOffering2.setDuration(serviceOffering.getDuration());
+        serviceOffering.setImage(serviceOffering.getImage());
         return serviceOfferingRepository.save(serviceOffering2);
     }
 
