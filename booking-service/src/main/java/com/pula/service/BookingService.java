@@ -14,7 +14,7 @@ import java.util.Set;
 
 public interface BookingService {
 
-    Booking createBooking(BookingRequest booking, UserDTO userDTO, SalonDTO salonDTO, Set<ServiceOfferingDTO> serviceDTOSet);
+    Booking createBooking(BookingRequest booking, UserDTO userDTO, SalonDTO salonDTO, Set<ServiceOfferingDTO> serviceDTOSet) throws Exception;
     List<Booking> getBookingsByCustomerId(Long customerId);
     List<Booking> getBookingsBySalonId(Long salonId);
     Booking getBookingById(Long id);

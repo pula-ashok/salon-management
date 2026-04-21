@@ -25,7 +25,7 @@ public class Booking {
 
     private LocalDateTime endDate;
 
-    private  int totalServices;
+    private  int totalPrice;
 
     private BookingStatus status = BookingStatus.PENDING;
 
