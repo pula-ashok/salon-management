@@ -37,6 +37,7 @@ public class BookingServiceImpl  implements BookingService {
         Set<Long> idList = serviceDTOSet.stream().map(ServiceOfferingDTO::getId).collect(Collectors.toSet());
         Booking newBooking = new Booking();
         newBooking.setCustomerId(userDTO.getId());
+        newBooking.setSalonId(salonDTO.getId());
         newBooking.setServiceIds(idList);
         newBooking.setStatus(BookingStatus.PENDING);
         newBooking.setStartDate(bookingStartTime);
@@ -101,7 +102,7 @@ public class BookingServiceImpl  implements BookingService {
         List<Booking> existingBookings = getBookingsBySalonId(salonDTO.getId());
         LocalDateTime salonOpenTime =  salonDTO.getOpenTime().atDate(bookingStartTime.toLocalDate());
         LocalDateTime salonCloseTime = salonDTO.getCloseTime().atDate(bookingStartTime.toLocalDate());
-        if(salonOpenTime.isBefore(bookingStartTime) || salonCloseTime.isAfter(bookingEndTime)){
+        if(bookingStartTime.isBefore(salonOpenTime) || bookingEndTime.isAfter(salonCloseTime)){
             throw new Exception("Booking must be within salon's working hours");
         }
         for(Booking booking :existingBookings){
