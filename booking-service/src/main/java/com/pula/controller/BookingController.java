@@ -70,7 +70,7 @@ public class BookingController {
         return ResponseEntity.ok().body(BookingMapper.toDTO(booking));
     }
 
-    @GetMapping("/slots/salon/{salonId}/date/{date}")
+    @GetMapping("/slots/salon/{salonId}/date")
     public ResponseEntity<List<BookingSlotDTO>> getBookingSlots(@PathVariable Long salonId, @RequestParam(required = false)LocalDate date){
         List<Booking> bookings = bookingService.getBookingsByDate(date,salonId);
         List<BookingSlotDTO> bookingSlotDTOS = bookings.stream()
