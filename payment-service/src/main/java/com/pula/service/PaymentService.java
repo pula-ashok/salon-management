@@ -12,9 +12,9 @@ public interface PaymentService {
 
     PaymentLinkResponse createOrder(UserDTO userDTO, BookingDTO bookingDTO, PaymentMethod paymentMethod);
 
-    PaymentOrder getPaymentOrderById(Long id);
+    PaymentOrder getPaymentOrderById(Long id) throws Exception;
 
-    PaymentOrder getPaymentOrderByPaymentId(Long paymentId);
+    PaymentOrder getPaymentOrderByPaymentId(String paymentId);
 
     PaymentLink createRazorpayPaymentLink(UserDTO userDTO,Long amount,Long orderId);
 

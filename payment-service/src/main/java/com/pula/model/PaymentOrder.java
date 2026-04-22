@@ -14,7 +14,7 @@ public class PaymentOrder {
     private Long id;
 
     @Column(nullable = false)
-    private int amount;
+    private Long amount;
 
     @Column(nullable = false)
     private PaymentOrderStatus status = PaymentOrderStatus.PENDING;
