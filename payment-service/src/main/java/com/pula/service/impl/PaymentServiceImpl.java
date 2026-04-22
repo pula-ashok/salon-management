@@ -1,12 +1,14 @@
 package com.pula.service.impl;
 
 import com.pula.domain.PaymentMethod;
+import com.pula.domain.PaymentOrderStatus;
 import com.pula.model.PaymentOrder;
 import com.pula.payload.dto.BookingDTO;
 import com.pula.payload.dto.UserDTO;
 import com.pula.payload.response.PaymentLinkResponse;
 import com.pula.repository.PaymentRepository;
 import com.pula.service.PaymentService;
+import com.razorpay.Payment;
 import com.razorpay.PaymentLink;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
@@ -124,5 +126,27 @@ public class PaymentServiceImpl implements PaymentService {
                 ).build();
         Session session = Session.create(params);
         return session.getUrl();
+    }
+
+    @Override
+    public Boolean proceedPayment(PaymentOrder paymentOrder, String paymentId, String paymentLinkId) throws RazorpayException {
+        if(paymentOrder.getStatus().equals(PaymentOrderStatus.PENDING)){
+            if(paymentOrder.getPaymentMethod().equals(PaymentMethod.RAZORPAY)){
+                RazorpayClient razorpayClient = new RazorpayClient(razorpayApiKey,razorpayApiSecret);
+                Payment payment = razorpayClient.payments.fetch(paymentId);
+                Integer amount = payment.get("amount");
+                String status = payment.get("status");
+                if(status.equals("captured")){
+                    paymentOrder.setStatus(PaymentOrderStatus.SUCCESS);
+                    paymentRepository.save(paymentOrder);
+                    return  true;
+                }
+            } else {
+                paymentOrder.setStatus(PaymentOrderStatus.SUCCESS);
+                paymentRepository.save(paymentOrder);
+                return  true;
+            }
+        }
+        return false;
     }
 }
