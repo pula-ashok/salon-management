@@ -36,7 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Value("${stripe.api.key}")
     private String stripeApiKey;
 
-    private PaymentRepository paymentRepository;
+    private final PaymentRepository paymentRepository;
 
     @Override
     public PaymentLinkResponse createOrder(UserDTO userDTO, BookingDTO bookingDTO, PaymentMethod paymentMethod) throws RazorpayException, StripeException {
