@@ -3,7 +3,13 @@ server:
 spring:
   application:
     name: gateway-server
-
+  # cloud:
+  #   gateway:
+  #     routes:
+  #       - id: booking-service
+  #         uri: http://localhost:5005
+  #         predicates:
+  #           - Path=/msapi/bookings/**
 eureka:
   instance:
     prefer-ip-address: true
