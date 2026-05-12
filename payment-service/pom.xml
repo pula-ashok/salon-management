@@ -156,6 +156,16 @@
 					</execution>
 				</executions>
 			</plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <to>
+                        <image>ashok5820/salon-payment-yt:v1</image>
+                    </to>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
